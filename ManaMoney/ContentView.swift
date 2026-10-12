@@ -5,6 +5,8 @@ struct ContentView: View {
     
     @State private var income = 0
     @State private var expenses = 0
+    
+    @State private var amountInput = ""
 
     var balance: Int {
         income - expenses
@@ -43,7 +45,24 @@ struct ContentView: View {
                     expenses += 25
                 }
             }
-        }
+                TextField("Inserisci importo", text: $amountInput)
+                    .keyboardType(.numberPad)
+            HStack {
+                Button("Registra entrata") {
+                    if let number = Int(amountInput), number > 0 {
+                        income += number
+                        amountInput = ""
+                    }
+                }
+            
+                Button("Registra uscita") {
+                    if let number = Int(amountInput), number > 0 {
+                        expenses += number
+                        amountInput = ""
+                    }
+                }
+            }
+         }
     }
 }
 #Preview {
