@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Impostazioni personali Xcode
+**/xcuserdata/
+*.xcuserstate
+
+# File generati dalla compilazione
+DerivedData/
+.build/
+
+# Risultati e prodotti di compilazione
+*.xcresult
+*.ipa
