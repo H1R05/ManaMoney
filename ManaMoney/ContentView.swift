@@ -12,6 +12,17 @@ struct ContentView: View {
         income - expenses
     }
     
+    func registerTransaction(isIncome: Bool) {
+        if let number = Int(amountInput), number > 0 {
+            if isIncome == true {
+                income += number
+            }else {
+                expenses += number
+            }
+            amountInput = ""
+        }
+    }
+    
     var body: some View {
         VStack (spacing: 12) {
             Text("ManaMoney")
@@ -48,18 +59,13 @@ struct ContentView: View {
                 TextField("Inserisci importo", text: $amountInput)
                     .keyboardType(.numberPad)
             HStack {
+                
                 Button("Registra entrata") {
-                    if let number = Int(amountInput), number > 0 {
-                        income += number
-                        amountInput = ""
-                    }
+                    registerTransaction(isIncome: true)
                 }
             
                 Button("Registra uscita") {
-                    if let number = Int(amountInput), number > 0 {
-                        expenses += number
-                        amountInput = ""
-                    }
+                    registerTransaction(isIncome: false)
                 }
             }
          }
