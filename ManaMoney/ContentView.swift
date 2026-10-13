@@ -23,8 +23,31 @@ struct ContentView: View {
         }
     }
     
+    let mainAccount = Account(
+        id: UUID(),
+        name: "Conto principale",
+        type: .checking,
+        currencyCode: "EUR",
+        openingBalanceCents: 125050
+    )
+    
+    let prepaidAccount = Account(
+        id: UUID(),
+        name: "Carta Prepagata",
+        type: .prepaidCard,
+        currencyCode: "EUR",
+        openingBalanceCents: 8575
+    )
+    
+    var accounts: [Account] {
+        [mainAccount ,prepaidAccount]
+    }
+
+
+    
     var body: some View {
         VStack (spacing: 12) {
+            
             Text("ManaMoney")
                 .font(.largeTitle)
                 .bold()
@@ -62,6 +85,7 @@ struct ContentView: View {
                 
                 Button("Registra entrata") {
                     registerTransaction(isIncome: true)
+                    print(accounts.count)
                 }
             
                 Button("Registra uscita") {
