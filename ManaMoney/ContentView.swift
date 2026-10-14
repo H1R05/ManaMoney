@@ -14,7 +14,7 @@ struct ContentView: View {
     
     func registerTransaction(isIncome: Bool) {
         if let number = Int(amountInput), number > 0 {
-            if isIncome == true {
+            if isIncome {
                 income += number
             }else {
                 expenses += number
@@ -43,6 +43,24 @@ struct ContentView: View {
         [mainAccount ,prepaidAccount]
     }
 
+    func printAccounts() {
+        for account in accounts {
+            print(account.name, account.openingBalanceCents)
+        }
+    }
+    
+    func formatBalance(cents: Int64) -> String {
+        let amount = Decimal(cents) / 100
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = "EUR"
+        formatter.locale = Locale(identifier: "it_IT")
+        let number = NSDecimalNumber(decimal: amount)
+        if let formatted = formatter.string(from: number) {
+            return formatted
+        }
+        return "\(amount)"
+    }
 
     
     var body: some View {
@@ -51,10 +69,13 @@ struct ContentView: View {
             Text("ManaMoney")
                 .font(.largeTitle)
                 .bold()
+            
             Text("L'app per le finanze personali")
                 .italic()
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+            
+            Text("Conti disponibili: \(accounts.count)")
             
             Text("Saldo Disponibile:")
             Text("\(balance)")
@@ -85,13 +106,21 @@ struct ContentView: View {
                 
                 Button("Registra entrata") {
                     registerTransaction(isIncome: true)
-                    print(accounts.count)
                 }
             
                 Button("Registra uscita") {
                     registerTransaction(isIncome: false)
                 }
             }
+            
+                ForEach(accounts, id: \.id) { account in
+                        HStack {
+                            Text(account.name)
+                                .font(.headline)
+                            Spacer()
+                            Text(formatBalance(cents: account.openingBalanceCents))
+                        }
+                    }
          }
     }
 }
